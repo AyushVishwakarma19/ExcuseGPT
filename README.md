@@ -6,6 +6,10 @@ ExcuseGPT is an AI-powered application for generating and refining context-groun
 
 Instead of relying on generic or fabricated excuses, it takes the circumstances supplied by the user and generates **three distinct responses** that aim to preserve the original facts while varying the way they are communicated.
 
+## 🚀 Live Demo
+
+[Launch ExcuseGPT](https://excusegpt-fmfp6khenoigrsxkedx9ez.streamlit.app/)
+
 ---
 
 ## 🛡️ Core Philosophy: Contextual Grounding
@@ -99,7 +103,7 @@ ExcuseGPT has four main sections:
 ### 2. Clone the Repository
 
 ```powershell
-git clone <repository-url>
+git clone https://github.com/AyushVishwakarma19/ExcuseGPT.git
 cd ExcuseGPT
 ```
 
