@@ -3,6 +3,7 @@
 import html
 import requests
 import streamlit as st
+from frontend.config import get_backend_url
 
 from frontend.brand import render_icon_svg
 from frontend.styles import (
@@ -12,8 +13,11 @@ from frontend.styles import (
     render_html,
 )
 
-API_URL = "http://127.0.0.1:8000/generate"
-REFINE_API_URL = "http://127.0.0.1:8000/refine"
+# API_URL = "http://127.0.0.1:8000/generate"
+# REFINE_API_URL = "http://127.0.0.1:8000/refine"
+BACKEND_BASE_URL = get_backend_url()
+API_URL = f"{BACKEND_BASE_URL}/generate"
+REFINE_API_URL = f"{BACKEND_BASE_URL}/refine"
 
 
 def render_create_view(persist_callback):
@@ -200,7 +204,7 @@ def render_create_view(persist_callback):
                 except requests.exceptions.ConnectionError:
                     st.error(
                         "Cannot connect to the backend server. "
-                        "Please ensure the FastAPI service is running at http://127.0.0.1:8000."
+                        "Please ensure the FastAPI service is running at {BACKEND_BASE_URL}."
                     )
                 except requests.exceptions.Timeout:
                     st.error("The request timed out. Please try again.")

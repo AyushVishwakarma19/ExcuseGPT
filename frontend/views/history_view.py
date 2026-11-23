@@ -3,6 +3,7 @@
 import html
 import requests
 import streamlit as st
+from frontend.config import get_backend_url
 
 from frontend.styles import (
     format_approach_badge,
@@ -13,8 +14,9 @@ from frontend.styles import (
     render_stat_kpi,
 )
 
-REFINE_API_URL = "http://127.0.0.1:8000/refine"
-
+# REFINE_API_URL = "http://127.0.0.1:8000/refine"
+BACKEND_BASE_URL = get_backend_url()
+REFINE_API_URL = f"{BACKEND_BASE_URL}/refine"
 
 def _format_generation_label(entry_id: str, fallback_index: int) -> str:
     """Format a display-only zero-padded generation number without altering stored IDs."""

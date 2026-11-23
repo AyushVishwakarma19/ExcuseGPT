@@ -19,6 +19,7 @@ from backend.services.storage_service import (
     load_app_state,
     save_app_state,
 )
+from frontend.config import get_backend_url, use_session_storage
 from frontend.brand import render_full_logo_svg
 from frontend.styles import inject_custom_css, render_html
 from frontend.views.about_view import render_about_view
@@ -49,26 +50,32 @@ st.set_page_config(
 inject_custom_css()
 
 # API configuration
-BACKEND_BASE_URL = "http://127.0.0.1:8000"
+# BACKEND_BASE_URL = "http://127.0.0.1:8000"
+BACKEND_BASE_URL = get_backend_url()
 
 
 # Load persistent application data from SQLite
 if "app_state_loaded" not in st.session_state:
-    saved_state = load_app_state()
+    if use_session_storage():
+        st.session_state.generation_history = []
+        st.session_state.saved_excuses = []
+        st.session_state.refined_responses = {}
+    else:
+        saved_state = load_app_state()
+        st.session_state.generation_history = saved_state["generation_history"]
+        st.session_state.saved_excuses = saved_state["saved_excuses"]
+        st.session_state.refined_responses = saved_state["refined_responses"]
 
-    st.session_state.generation_history = saved_state["generation_history"]
-    st.session_state.saved_excuses = saved_state["saved_excuses"]
-    st.session_state.refined_responses = saved_state["refined_responses"]
     st.session_state.app_state_loaded = True
 
 
 def persist_app_state():
-    """Save the current application data to SQLite."""
-    save_app_state(
-        generation_history=st.session_state.generation_history,
-        saved_excuses=st.session_state.saved_excuses,
-        refined_responses=st.session_state.refined_responses,
-    )
+    if not use_session_storage():
+        save_app_state(
+            generation_history=st.session_state.generation_history,
+            saved_excuses=st.session_state.saved_excuses,
+            refined_responses=st.session_state.refined_responses,
+        )
 
 
 def check_backend_health() -> bool:
