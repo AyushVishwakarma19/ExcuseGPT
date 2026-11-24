@@ -260,74 +260,116 @@ def render_about_view():
         """
     )
 
-    # First row: Frontend and Backend & AI
-    with st.container(key="tech_frontend_row"):
-        col_frontend, col_backend = st.columns(
-            2,
-            gap="small",
-        )
+    # Responsive technology cards: two columns on desktop, one on narrow screens.
+    render_html(
+        """
+        <style>
+            .excusegpt-tech-grid {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 1rem;
+                align-items: stretch;
+                margin-top: 0.35rem;
+            }
+            .excusegpt-tech-card {
+                min-width: 0;
+                box-sizing: border-box;
+                border: 1px solid rgba(128, 128, 128, 0.32);
+                border-radius: 12px;
+                padding: 1.2rem;
+                background: rgba(255, 255, 255, 0.24);
+                overflow-wrap: anywhere;
+            }
+            .excusegpt-tech-card h4 {
+                margin: 0 0 1rem 0;
+                color: #18181B;
+                font-size: 1.35rem;
+                line-height: 1.3;
+                font-weight: 750;
+            }
+            .excusegpt-tech-card ul {
+                margin: 0;
+                padding-left: 1.2rem;
+            }
+            .excusegpt-tech-card li {
+                margin: 0 0 0.62rem 0;
+                padding-left: 0.12rem;
+                color: #27272A;
+                font-size: 1rem;
+                line-height: 1.55;
+            }
+            .excusegpt-tech-card li:last-child {
+                margin-bottom: 0;
+            }
+            .excusegpt-tech-card strong {
+                color: #18181B;
+            }
+            @media (max-width: 760px) {
+                .excusegpt-tech-grid {
+                    grid-template-columns: minmax(0, 1fr);
+                    gap: 0.8rem;
+                }
+                .excusegpt-tech-card {
+                    padding: 1.05rem;
+                }
+                .excusegpt-tech-card h4 {
+                    font-size: 1.2rem;
+                    margin-bottom: 0.8rem;
+                }
+                .excusegpt-tech-card li {
+                    font-size: 0.98rem;
+                    line-height: 1.55;
+                }
+            }
+        </style>
 
-        with col_frontend:
-            with st.container(border=True):
-                st.markdown("#### Frontend")
-                st.markdown(
-                    """
-                    - **Framework:** Streamlit
-                    - **Language:** Python 3.12
-                    - **Styling:** Custom HTML and CSS
-                    - **Navigation:** Create, History, Favourites, About
-                    - **Interactions:** Generation, copying, refinement,
-                      and favourite management
-                    """
-                )
+        <div class="excusegpt-tech-grid">
+            <section class="excusegpt-tech-card">
+                <h4>Frontend</h4>
+                <ul>
+                    <li><strong>Framework:</strong> Streamlit</li>
+                    <li><strong>Language:</strong> Python 3.12</li>
+                    <li><strong>Styling:</strong> Custom HTML and CSS</li>
+                    <li><strong>Navigation:</strong> Create, History, Favourites, About</li>
+                    <li><strong>Interactions:</strong> Generation, copying, refinement, and favourite management</li>
+                </ul>
+            </section>
 
-        with col_backend:
-            with st.container(border=True):
-                st.markdown("#### Backend & AI")
-                st.markdown(
-                    """
-                    - **API Framework:** FastAPI
-                    - **Server:** Uvicorn
-                    - **AI Integration:** Google Gemini Developer API
-                    - **Data Validation:** Pydantic schemas
-                    - **Grounding:** Custom grounding validator
-                    - **Input Validation:** Enforces required fields and valid values.
-                    """
-                )
+            <section class="excusegpt-tech-card">
+                <h4>Backend &amp; AI</h4>
+                <ul>
+                    <li><strong>API Framework:</strong> FastAPI</li>
+                    <li><strong>Server:</strong> Uvicorn</li>
+                    <li><strong>AI Integration:</strong> Google Gemini Developer API</li>
+                    <li><strong>Data Validation:</strong> Pydantic schemas</li>
+                    <li><strong>Grounding:</strong> Custom grounding validator</li>
+                    <li><strong>Input Validation:</strong> Enforces required fields and valid values</li>
+                </ul>
+            </section>
 
-    # Second row: Storage and Quality
-    with st.container(key="tech_storage_row"):
-        col_storage, col_quality = st.columns(
-            2,
-            gap="small",
-        )
+            <section class="excusegpt-tech-card">
+                <h4>Storage &amp; Persistence</h4>
+                <ul>
+                    <li><strong>Database:</strong> SQLite</li>
+                    <li><strong>Integration:</strong> Python <code>sqlite3</code></li>
+                    <li><strong>Stored Data:</strong> Generation history and saved favourites</li>
+                    <li><strong>Deployment note:</strong> On the hosted free instance, local SQLite data may reset after a restart or redeployment</li>
+                </ul>
+            </section>
 
-        with col_storage:
-            with st.container(border=True):
-                st.markdown("#### Storage & Persistence")
-                st.markdown(
-                    """
-                    - **Database:** SQLite
-                    - **Integration:** Python `sqlite3`
-                    - **Stored Data:** Generation history and
-                      saved favourites
-                    - **Persistence:** Application records remain
-                      available across restarts and reloads
-                    """
-                )
-
-        with col_quality:
-            with st.container(border=True):
-                st.markdown("#### Quality & Testing")
-                st.markdown(
-                    """
-                    - **Automated Tests:** 42 passing tests
-                    - **API Testing:** Generation and refinement
-                    - **Validation Testing:** Grounding and schemas
-                    - **Storage Testing:** Database persistence
-                    - **Reliability:** Input and error-handling checks
-                    """
-                )
+            <section class="excusegpt-tech-card">
+                <h4>Quality &amp; Testing</h4>
+                <ul>
+                    <li><strong>Automated Tests:</strong> 42 passing tests</li>
+                    <li><strong>API Testing:</strong> Generation and refinement</li>
+                    <li><strong>Validation Testing:</strong> Grounding and schemas</li>
+                    <li><strong>Storage Testing:</strong> Database persistence</li>
+                    <li><strong>Reliability:</strong> Input and error-handling checks</li>
+                </ul>
+            </section>
+        </div>
+        """
+    )
 
     st.markdown("<div style='height:1.1rem;'></div>",
                 unsafe_allow_html=True)
